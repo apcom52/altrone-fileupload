@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Altrone FileUpload Plugin</title>
+    <link rel="stylesheet" href="src/altrone.css">
+    <link rel="stylesheet" href="dist/altrone-fileupload.css">
+</head>
+<body>
+<div class="grid">
+    <div class="col-8 offset-2 col-lt-8 offset-lt-1 col-lm-6 offset-lm-0">
+        <div class="fileupload">
+            <div class="fileupload-file">
+                <div class="fileupload-file__icon"></div>
+                <div class="fileupload-file__info">
+                    <div class="fileupload-file__title">курсовая.docx</div>
+                    <div class="fileupload-file__meta">Документ, 1.49 MB</div>
+                    <div class="progress progress--size-thin"><div class="progress__active progress__active--color-blue" style="width: 45%;"></div></div>
+                </div>
+            </div>
+
+            <div class="fileupload-file">
+                <div class="fileupload-file__icon"></div>
+                <div class="fileupload-file__info">
+                    <div class="fileupload-file__title">avatar255478197749479494974.png</div>
+                    <div class="fileupload-file__meta">Изображение, 648 KB</div>
+                    <div class="progress progress--size-thin"><div class="progress__active progress__active--color-blue" style="width: 12%;"></div></div>
+                </div>
+            </div>
+
+            <div class="fileupload-file">
+                <div class="fileupload-file__icon"></div>
+                <div class="fileupload-file__info">
+                    <div class="fileupload-file__title">AssassinsCreedII.exe</div>
+                    <div class="fileupload-file__meta">Приложение, 3.7 GB</div>
+                    <div class="progress progress--size-thin"><div class="progress__active progress__active--color-blue" style="width: 88%;"></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="fileupload fileupload--empty" id="fu2">Перетащите или выберите файлы для загрузки</div>
+        <div class="fileupload fileupload--drag" id="fu3">
+            <div class="fileupload__placeholder">Drag or <b>choose</b> files to upload</div>
+        </div>
+    </div>
+</div>
+<script src="src/altrone-fileupload.js"></script>
+<script>
+    let fupload1 = new FileUpload(document.getElementById('fu2'));
+</script>
+</body>
+</html>
