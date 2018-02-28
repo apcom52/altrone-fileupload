@@ -39,7 +39,6 @@ class FileUpload {
         target.__element.classList.remove('fileupload--drag');
 
         if (target.__element.classList.contains('fileupload--empty')) {
-
             target.__element.innerText = "Перетащите или выберите файлы для загрузки";
         }
 
@@ -58,6 +57,10 @@ class FileUpload {
 
     __onDrop(e) {
         e.preventDefault();
+        target.__element.classList.remove('fileupload--drag');
+        if (target.__element.classList.contains('fileupload--empty')) {
+            target.__element.innerText = "Перетащите или выберите файлы для загрузки";
+        }
         console.log('on drop');
     }
 }
