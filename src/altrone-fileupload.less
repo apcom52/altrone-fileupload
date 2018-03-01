@@ -1,24 +1,24 @@
 @import 'uvars';
 
 .fileupload {
-  background-color: @u-gray;
-  border-radius: 0.2rem;
-  min-height: 100px;
-  color: @d-gray;
-  font-family: @normal-font;
-  margin: 1rem 0.5rem;
-  border: 2px dashed @l-gray;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 0.5rem;
-  box-sizing: border-box;
-  transition: background-color 0.3s linear, border-color 0.3s linear;
-
-  .fileupload__placeholder {
+  label {
+    background-color: @u-gray;
+    border-radius: 0.2rem;
+    min-height: 100px;
     color: @d-gray;
-    text-align: center;
-    width: 100%;
+    font-family: @normal-font;
+    margin: 1rem 0.5rem;
+    border: 2px dashed @l-gray;
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: background-color 0.3s linear, border-color 0.3s linear;
+  }
+
+  input[type="file"] {
+    display: none;
   }
 
   .fileupload-file {
@@ -65,19 +65,16 @@
   }
 
   &.fileupload--drag {
-    background-color: @u-blue;
-    border-color: @l-blue;
+    label {
+      background-color: @u-blue;
+      border-color: @l-blue;
+    }
   }
 
   &.fileupload--empty {
-    justify-content: center;
+    label {
+      justify-content: center;
+      align-items: center;
+    }
   }
-}
-
-@media (max-width: @tablet) {
-
-}
-
-@media (max-width: @l-mobile) {
-
 }

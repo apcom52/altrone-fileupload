@@ -2,7 +2,7 @@
 /* Devices */
 /* Smoothing */
 /* Font */
-.fileupload {
+.fileupload label {
   background-color: #f5f5f5;
   border-radius: 0.2rem;
   min-height: 100px;
@@ -11,16 +11,14 @@
   margin: 1rem 0.5rem;
   border: 2px dashed #E0E0E0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   flex-wrap: wrap;
-  padding: 0.5rem;
   box-sizing: border-box;
+  overflow: hidden;
   transition: background-color 0.3s linear, border-color 0.3s linear;
 }
-.fileupload .fileupload__placeholder {
-  color: #424242;
-  text-align: center;
-  width: 100%;
+.fileupload input[type="file"] {
+  display: none;
 }
 .fileupload .fileupload-file {
   background-color: #ffffff;
@@ -59,10 +57,11 @@
 .fileupload .fileupload-file:hover {
   background-color: #fcfcfc;
 }
-.fileupload.fileupload--drag {
+.fileupload.fileupload--drag label {
   background-color: #bbdefb;
   border-color: #90caf9;
 }
-.fileupload.fileupload--empty {
+.fileupload.fileupload--empty label {
   justify-content: center;
+  align-items: center;
 }

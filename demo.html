@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Altrone FileUpload Plugin</title>
@@ -37,12 +37,14 @@
                 </div>
             </div>
         </div>
-        <div class="fileupload fileupload--empty" id="fu2">Перетащите или выберите файлы для загрузки</div>
+        <div class="fileupload fileupload--empty" id="fu2">
+        </div>
         <div class="fileupload fileupload--drag" id="fu3">
             <div class="fileupload__placeholder">Drag or <b>choose</b> files to upload</div>
         </div>
     </div>
 </div>
+<script src="src/altrone.js"></script>
 <script src="src/altrone-fileupload.js"></script>
 <script>
     let fupload1 = new FileUpload(document.getElementById('fu2'));
