@@ -8,6 +8,11 @@ const fileUploadL8n = {
         video: "Video",
         archive: "Archive",
         music: "Audio",
+        bytes: "B",
+        kbytes: "KB",
+        mbytes: "MB",
+        gbytes: "GB",
+        tbytes: "TB"
     },
     ru: {
         placeholder: "Перетащите или выберите файл для загрузки",
@@ -18,6 +23,11 @@ const fileUploadL8n = {
         video: "Видео",
         archive: "Архив",
         music: "Аудио",
+        bytes: "Б",
+        kbytes: "КБ",
+        mbytes: "МБ",
+        gbytes: "ГБ",
+        tbytes: "ТБ"
     }
 };
 
@@ -32,10 +42,13 @@ class FileUpload {
         }
 
         target.__element = element;
+        target.__maxSize = options.maxSize || 2097152;
+        target.__multiple = options.multiple || false;
         target.__files = [];
-        target.__fileInput = createElement('input', '', target.__element.id + 'finput', { type: 'file', multiple: true});
+        target.__fileInput = createElement('input', '', target.__element.id + 'finput', { type: 'file', multiple: target.__multiple});
         target.__label = createElement('label', '', '', { for: target.__element.id + 'finput' }, locale.placeholder);
 
+        target.__element.classList.add('fileupload--empty');
         target.__element.appendChild(target.__fileInput);
         target.__element.appendChild(target.__label);
 
@@ -59,7 +72,7 @@ class FileUpload {
         target.__inArea = true;
 
         if (target.__element.classList.contains('fileupload--empty')) {
-            if (!target.__files) {
+            if (!target.__files.length) {
                 target.__label.innerText = locale.drop;
             }
         }
@@ -71,14 +84,10 @@ class FileUpload {
         target.__element.classList.remove('fileupload--drag');
 
         if (target.__element.classList.contains('fileupload--empty')) {
-            if (!target.__files) {
+            if (!target.__files.length) {
                 target.__label.innerText = locale.placeholder;
             }
         }
-    }
-
-    __onDragOver(e) {
-        e.preventDefault();
     }
 
     __onDrop(e) {
@@ -91,14 +100,16 @@ class FileUpload {
 
         if (dt.files) {
             target.__element.classList.remove('fileupload--empty');
-            target.__label.innerText = '';
+            if (!target.__files.length) {
+                target.__label.innerText = '';
+            }
         }
 
         Array.from(files).forEach(target.__uploadFile, target);
 
         target.__element.classList.remove('fileupload--drag');
         if (target.__element.classList.contains('fileupload--empty')) {
-            if (!target.__files) {
+            if (!target.__files.length) {
                 target.__label.innerText = locale.placeholder;
             }
         }
@@ -111,7 +122,9 @@ class FileUpload {
 
         if (files) {
             target.__element.classList.remove('fileupload--empty');
-            target.__label.innerText = '';
+            if (!target.__files.length) {
+                target.__label.innerText = '';
+            }
         }
 
         Array.from(files).forEach(target.__uploadFile, target);
@@ -123,6 +136,10 @@ class FileUpload {
         }
     }
 
+    __onDragOver(e) {
+        e.preventDefault();
+    }
+
     __uploadFile(file) {
         let target = this;
         target.__files.push(file);
@@ -131,7 +148,11 @@ class FileUpload {
         let fileCardIcon = createElement('div', 'fileupload-file__icon');
         let fileCardInfo = createElement('div', 'fileupload-file__info');
         let fileCardTitle = createElement('div', 'fileupload-file__title', '', {}, file.name);
-        let fileCardMeta = createElement('div', 'fileupload-file__meta', '', {}, locale.document + ", " + (file.size / 8 / 1024) + "KB");
+
+        let fileSizeUnits = file.size == 0 ? 0 : Math.floor( Math.log(file.size) / Math.log(1024));
+        let fileSize = (file.size / Math.pow(1024, fileSizeUnits)).toFixed(2)*1 + [locale.bytes, locale.kbytes, locale.mbytes, locale.gbytes, locale.tbytes][fileSizeUnits];
+
+        let fileCardMeta = createElement('div', 'fileupload-file__meta', '', {}, locale.document + ", " + fileSize);
 
         fileCard.appendChild(fileCardIcon);
         fileCard.appendChild(fileCardInfo);

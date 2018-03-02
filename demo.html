@@ -39,8 +39,8 @@
         </div>
         <div class="fileupload fileupload--empty" id="fu2">
         </div>
-        <div class="fileupload fileupload--drag" id="fu3">
-            <div class="fileupload__placeholder">Drag or <b>choose</b> files to upload</div>
+        <div class="padding-2 black-bg">
+            <div class="fileupload fileupload--invert" id="fu3"></div>
         </div>
     </div>
 </div>
@@ -48,6 +48,7 @@
 <script src="src/altrone-fileupload.js"></script>
 <script>
     let fupload1 = new FileUpload(document.getElementById('fu2'));
+    let fupload2 = new FileUpload(document.getElementById('fu3'));
 </script>
 </body>
 </html>

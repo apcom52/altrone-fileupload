@@ -29,7 +29,9 @@
   box-sizing: border-box;
   border: 1px solid #f0f0f0;
   display: flex;
+  color: #212121;
   cursor: pointer;
+  align-items: center;
 }
 .fileupload .fileupload-file .fileupload-file__icon {
   width: 48px;
@@ -40,8 +42,8 @@
 }
 .fileupload .fileupload-file .fileupload-file__info {
   flex: 1;
-  padding: 0 0.5rem;
-  overflow-x: hidden;
+  padding: 0.1rem 0.5rem;
+  overflow: hidden;
 }
 .fileupload .fileupload-file .fileupload-file__info .fileupload-file__title {
   font-family: 'PT Sans Bold', -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI Black", "Roboto Black", "Helvetica Neue Black", "Arial Black", sans-serif;
@@ -64,4 +66,22 @@
 .fileupload.fileupload--empty label {
   justify-content: center;
   align-items: center;
+}
+.fileupload.fileupload--invert label {
+  background-color: #424242;
+  color: #ffffff;
+  border-color: #4f4f4f;
+}
+.fileupload.fileupload--invert .fileupload-file {
+  background-color: #5c5c5c;
+  border-color: #686868;
+  color: #ffffff;
+}
+.fileupload.fileupload--invert .fileupload-file .fileupload-file__icon {
+  background: #424242 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFESURBVGiB7ZqxTsMwFEVP7DBaMCBUxNwp8AsMhZ9mgYU/CJX4BNRmAFViSRozAFIrldDEDn5U72yRrZccXcd5lgKKLLKuwer1zY93a1821t5OnFvEqGZiFBlGdpWv28eqer+IUq1r8DuR05Pjznl92Uo6Y94YMwtNJmEiADzjKfK2vX9Zrc5CCiUVqa25Bl/iKUKXWVKRc+eWtbU34EtgSl4/DJVJvbSiySQXgS2ZJwbKiBCBT5kmQEaMCMDEucVQGVEisCGTMaeHjDgR+JIxZtZHJv+jZ9tJZy+3bjevphzVd8DlT9NFJrITT9E1nCSRvr3bPl34/0nkF1REGioijaBdK/aZPuQkqolA/LN8CAeTiIpII+muFfMd00RAd61RUBFpaK8lDd21pKEi0lARaaiINFREGnt92cf9JyUOB5OIIo0PlreFOj+9D4YAAAAASUVORK5CYII=') center no-repeat;
+  background-size: 80%;
+}
+.fileupload.fileupload--invert.fileupload--drag label {
+  background-color: #145ca4;
+  border-color: #1976d2;
 }

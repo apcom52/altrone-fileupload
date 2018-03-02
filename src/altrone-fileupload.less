@@ -30,7 +30,9 @@
     box-sizing: border-box;
     border: 1px solid darken(@u-gray, 2%);
     display: flex;
+    color: @black;
     cursor: pointer;
+    align-items: center;
 
     .fileupload-file__icon {
       width: 48px;
@@ -42,8 +44,8 @@
 
     .fileupload-file__info {
       flex: 1;
-      padding: 0 0.5rem;
-      overflow-x: hidden;
+      padding: 0.1rem 0.5rem;
+      overflow: hidden;
 
       .fileupload-file__title {
         font-family: @bold-font;
@@ -75,6 +77,32 @@
     label {
       justify-content: center;
       align-items: center;
+    }
+  }
+
+  &.fileupload--invert {
+    label {
+      background-color: @d-gray;
+      color: @white;
+      border-color: lighten(@d-gray, 5%);
+    }
+
+    .fileupload-file {
+      background-color: lighten(@d-gray, 10%);
+      border-color: lighten(@d-gray, 15%);
+      color: @white;
+
+      .fileupload-file__icon {
+        background: @d-gray url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFESURBVGiB7ZqxTsMwFEVP7DBaMCBUxNwp8AsMhZ9mgYU/CJX4BNRmAFViSRozAFIrldDEDn5U72yRrZccXcd5lgKKLLKuwer1zY93a1821t5OnFvEqGZiFBlGdpWv28eqer+IUq1r8DuR05Pjznl92Uo6Y94YMwtNJmEiADzjKfK2vX9Zrc5CCiUVqa25Bl/iKUKXWVKRc+eWtbU34EtgSl4/DJVJvbSiySQXgS2ZJwbKiBCBT5kmQEaMCMDEucVQGVEisCGTMaeHjDgR+JIxZtZHJv+jZ9tJZy+3bjevphzVd8DlT9NFJrITT9E1nCSRvr3bPl34/0nkF1REGioijaBdK/aZPuQkqolA/LN8CAeTiIpII+muFfMd00RAd61RUBFpaK8lDd21pKEi0lARaaiINFREGnt92cf9JyUOB5OIIo0PlreFOj+9D4YAAAAASUVORK5CYII=') center no-repeat;
+        background-size: 80%;
+      }
+    }
+
+    &.fileupload--drag {
+      label {
+        background-color: darken(@d-blue, 10%);
+        border-color: @d-blue;
+      }
     }
   }
 }
