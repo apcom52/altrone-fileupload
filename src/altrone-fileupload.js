@@ -8,6 +8,7 @@ const fileUploadL8n = {
         video: "Video",
         archive: "Archive",
         music: "Audio",
+        file: "File",
         maxsize: 'File size must be no more than',
         success: 'Success',
         error: 'Failed',
@@ -26,6 +27,7 @@ const fileUploadL8n = {
         video: "Видео",
         archive: "Архив",
         music: "Аудио",
+        file: "Файл",
         maxsize: 'Размер файла не должен превышать',
         success: 'Загружен',
         error: 'Ошибка при загрузке',
@@ -163,14 +165,28 @@ class FileUpload {
         let fileCardProgressActive = createElement('div', 'progress__active');
 
         let fileSize = FileUpload.__humanizeFileSize(file.size);
-
-        let fileCardMeta = createElement('div', 'fileupload-file__meta', '', {}, locale.document + ", " + fileSize);
+        const extension = FileUpload.__getExtension(file.name);
+        let fileCardMeta = createElement('div', 'fileupload-file__meta', '', {}, locale[extension.filetype] + ", " + fileSize);
 
         fileCard.appendChild(fileCardIcon);
         fileCard.appendChild(fileCardInfo);
         fileCardInfo.appendChild(fileCardTitle);
         fileCardInfo.appendChild(fileCardMeta);
         target.__label.appendChild(fileCard);
+
+        if (extension.filetype == 'image') {
+            console.log('image');
+            let fileReader = new FileReader();
+            fileReader.onload = (fr) => {
+                console.log('load image');
+                console.log(fr.target.result);
+                fileCardIcon.style.background = 'url(' + fr.target.result + ') no-repeat center';
+                fileCardIcon.style.backgroundSize = 'contain';
+            }
+            fileReader.readAsDataURL(file);
+        } else {
+            fileCardIcon.classList.add('fileupload-file__icon--' + extension.filetype);
+        }
 
         if (file.size >= target.__maxSize) {
             fileCardInfo.append(createElement('div', 'red-fg font--size-small', '', {}, locale.maxsize + ' ' + FileUpload.__humanizeFileSize(target.__maxSize)));
@@ -214,5 +230,31 @@ class FileUpload {
     static __humanizeFileSize(size) {
         let fileSizeUnits = size == 0 ? 0 : Math.floor( Math.log(size) / Math.log(1024));
         return (size / Math.pow(1024, fileSizeUnits)).toFixed(2)*1 + [locale.bytes, locale.kbytes, locale.mbytes, locale.gbytes, locale.tbytes][fileSizeUnits];
+    }
+
+    static __getExtension(filename) {
+        const fileExtensions = {
+            document: ['doc', 'docx', 'docm', 'epub', 'fb2', 'pdf', 'pages', 'key', 'mobi', 'ppt', 'pptm', 'pptx', 'pub', 'rtf', 'txt', 'xls', 'xlsm', 'xlsx'],
+            archive: ['7z', 'gzip', 'rar', 'zip', 'tar'],
+            image: ['ico', 'png', 'svg', 'bmp', 'gif', 'jpeg', 'jpg'],
+            music: ['ac3', 'aif', 'aud', 'flac', 'iff', 'm3u', 'm4a', 'm4b', 'm4r', 'mp3', 'ogg', 'wav', 'wma'],
+            app: ['app', 'apk', 'deb', 'exe', 'jar', 'pkg'],
+            video: ['3gp', 'avi', 'flv', 'h264', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'webm', 'wmv']
+        };
+
+        let ext = filename.toLowerCase().match(/.+\.([a-zA-Z0-9]+)/)[1];
+        let filetype = 'file';
+        Object.keys(fileExtensions).forEach((current) => {
+            console.log(fileExtensions[current].indexOf(ext));
+            if (fileExtensions[current].indexOf(ext) >= 0) {
+                filetype = current;
+                return;
+            }
+        });
+
+        return  {
+            extension: ext,
+            filetype: filetype
+        };
     }
 }
