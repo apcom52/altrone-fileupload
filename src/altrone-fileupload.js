@@ -56,7 +56,7 @@ class FileUpload {
         target.__name = options.name || "";
         target.__ajax = options.ajax || false;
         target.__data = options.data || {};
-        target.__url = target.__element.getAttribute('action');
+        target.__url = options.url || "";
         target.__files = [];
         target.__fileInput = createElement('input', '', target.__element.id + 'finput', { type: 'file', multiple: target.__multiple, name: target.__name});
         target.__fileMaxSizeInput = createElement('input', '', '', { type: 'hidden', name: 'MAX_FILE_SIZE', value: target.__maxSize});
