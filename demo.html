@@ -49,7 +49,8 @@
 <script src="src/altrone-fileupload.js"></script>
 <script>
     let fupload1 = new FileUpload(document.getElementById('fu2'), {
-        maxSize: 209715200
+        maxSize: 209715200,
+        extensions: ['jpg', 'jpeg', 'png']
     });
     let fupload2 = new FileUpload(document.getElementById('fu3'));
 </script>

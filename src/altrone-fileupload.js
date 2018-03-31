@@ -10,6 +10,7 @@ const fileUploadL8n = {
         music: "Audio",
         file: "File",
         maxsize: 'File size must be no more than',
+        wrongfiletype: 'Wrong file type',
         success: 'Success',
         error: 'Failed',
         bytes: "B",
@@ -29,6 +30,7 @@ const fileUploadL8n = {
         music: "Аудио",
         file: "Файл",
         maxsize: 'Размер файла не должен превышать',
+        wrongfiletype: 'Неправильный формат файла',
         success: 'Загружен',
         error: 'Ошибка при загрузке',
         bytes: "Б",
@@ -40,7 +42,6 @@ const fileUploadL8n = {
 };
 
 const locale = fileUploadL8n[document.documentElement.lang];
-console.log(locale);
 
 class FileUpload {
     constructor(element, options = {}) {
@@ -52,7 +53,7 @@ class FileUpload {
         target.__element = element;
         target.__maxSize = options.maxSize || 2097152;
         target.__multiple = options.multiple || false;
-        target.__name = options.name || false;
+        target.__name = options.name || "";
         target.__ajax = options.ajax || false;
         target.__data = options.data || {};
         target.__url = target.__element.getAttribute('action');
@@ -60,6 +61,10 @@ class FileUpload {
         target.__fileInput = createElement('input', '', target.__element.id + 'finput', { type: 'file', multiple: target.__multiple, name: target.__name});
         target.__fileMaxSizeInput = createElement('input', '', '', { type: 'hidden', name: 'MAX_FILE_SIZE', value: target.__maxSize});
         target.__label = createElement('label', '', '', { for: target.__element.id + 'finput' }, locale.placeholder);
+        target.__extensions = options.extensions || [];
+        target.__onFileSelectedCallback = options.onFileSelected || null;
+        target.__onFileUploadedCallback = options.onFileUploaded || null;
+        target.__onFileUploadFailedCallback = options.onFileUploadFailed || null;
 
         target.__element.classList.add('fileupload--empty');
         target.__element.appendChild(target.__fileMaxSizeInput);
@@ -157,6 +162,10 @@ class FileUpload {
         let target = this;
         target.__files.push(file);
 
+        if (target.__onFileSelectedCallback) {
+            target.__onFileSelectedCallback(target, file);
+        }
+
         let fileCard = createElement('div', 'fileupload-file');
         let fileCardIcon = createElement('div', 'fileupload-file__icon');
         let fileCardInfo = createElement('div', 'fileupload-file__info');
@@ -166,6 +175,9 @@ class FileUpload {
 
         let fileSize = FileUpload.__humanizeFileSize(file.size);
         const extension = FileUpload.__getExtension(file.name);
+        let isTrueExtension = true;
+        if (target.__extensions.length && target.__extensions.indexOf(extension.extension) === -1) isTrueExtension = false;
+        console.log('is true', isTrueExtension, extension, target.__extensions, target.__extensions.indexOf(extension));
         let fileCardMeta = createElement('div', 'fileupload-file__meta', '', {}, locale[extension.filetype] + ", " + fileSize);
 
         fileCard.appendChild(fileCardIcon);
@@ -174,15 +186,16 @@ class FileUpload {
         fileCardInfo.appendChild(fileCardMeta);
         target.__label.appendChild(fileCard);
 
+        if (!isTrueExtension) {
+            fileCardInfo.append(createElement('div', 'red-fg font--size-small', '', {}, locale.wrongfiletype));
+        }
+
         if (extension.filetype == 'image') {
-            console.log('image');
             let fileReader = new FileReader();
             fileReader.onload = (fr) => {
-                console.log('load image');
-                console.log(fr.target.result);
                 fileCardIcon.style.background = 'url(' + fr.target.result + ') no-repeat center';
                 fileCardIcon.style.backgroundSize = 'contain';
-            }
+            };
             fileReader.readAsDataURL(file);
         } else {
             fileCardIcon.classList.add('fileupload-file__icon--' + extension.filetype);
@@ -197,7 +210,6 @@ class FileUpload {
 
                 let ajax = new XMLHttpRequest();
                 ajax.upload.onprogress = (e) => {
-                    console.log(e.loaded);
                     fileCardProgressActive.style.width = (e.loaded / e.total * 100) + '%';
                 };
 
@@ -205,11 +217,13 @@ class FileUpload {
                     if (this.status == 200) {
                         fileCardProgress.remove();
                         fileCardInfo.appendChild(createElement('div', 'green-fg font--size-small', '', {}, locale.success));
+
+                        if (target.__onFileUploadedCallback) target.__onFileUploadedCallback(target, file, response);
                     } else {
                         fileCardProgress.remove();
                         fileCardInfo.appendChild(createElement('div', 'red-fg font--size-small', '', {}, locale.error));
+                        if (target.__onFileUploadFailedCallback) target.__onFileUploadFailedCallback(target, file, response);
                     }
-                    console.log(response);
                 };
 
                 let formData = new FormData();
@@ -245,7 +259,6 @@ class FileUpload {
         let ext = filename.toLowerCase().match(/.+\.([a-zA-Z0-9]+)/)[1];
         let filetype = 'file';
         Object.keys(fileExtensions).forEach((current) => {
-            console.log(fileExtensions[current].indexOf(ext));
             if (fileExtensions[current].indexOf(ext) >= 0) {
                 filetype = current;
                 return;

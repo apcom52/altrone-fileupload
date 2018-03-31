@@ -75,8 +75,8 @@
   background-color: #fcfcfc;
 }
 .fileupload.fileupload--drag label {
-  background-color: #bbdefb;
-  border-color: #90caf9;
+  background-color: #e8e8e8;
+  border-color: #E0E0E0;
 }
 .fileupload.fileupload--empty label {
   justify-content: center;
@@ -117,6 +117,6 @@
   background-size: 80%;
 }
 .fileupload.fileupload--invert.fileupload--drag label {
-  background-color: #145ca4;
-  border-color: #1976d2;
+  background-color: #4f4f4f;
+  border-color: #424242;
 }
